@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingresa al Portal Comercio de tu Súper Compraquí</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f1f3f6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 2.75rem 2.25rem 2.25rem 2.25rem;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .title {
+            color: #1e293b;
+            font-size: 1.45rem;
+            font-weight: 800;
+            text-align: center;
+            line-height: 1.35;
+            margin-bottom: 2.25rem;
+            padding: 0 0.5rem;
+        }
+
+        .alert-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .alert {
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .alert-danger {
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+        }
+
+        .alert-success {
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            color: #15803d;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1.1rem;
+            border: 1.5px solid #8fa2b8;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: #334155;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #ffffff;
+        }
+
+        .form-control::placeholder {
+            color: #7d90a6;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .input-container.with-icon .form-control {
+            padding-right: 3rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 0.9rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .toggle-password:hover {
+            color: #334155;
+        }
+
+        .toggle-password svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: center;
+            color: #3b66cf;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            margin: 1.75rem 0 1.5rem 0;
+            transition: color 0.2s;
+        }
+
+        .forgot-password:hover {
+            color: #254db1;
+            text-decoration: underline;
+        }
+
+        .btn-continue {
+            width: 100%;
+            background-color: #e2e8f0;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 0.95rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 2rem;
+        }
+
+        /* Cuando el formulario tiene valores o se activa el botón */
+        .btn-continue.active,
+        .btn-continue:hover {
+            background-color: #2563eb;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
+        .footer-text {
+            text-align: center;
+            color: #334155;
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .create-account-link {
+            display: block;
+            text-align: center;
+            color: #3b66cf;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .create-account-link:hover {
+            color: #254db1;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h1 class="title">Inicia Sesión</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST" id="loginForm">
+            <div class="form-group">
+                <label for="nombre_usuario">Email</label>
+                <div class="input-container">
+                    <input
+                        type="text"
+                        id="nombre_usuario"
+                        name="nombre_usuario"
+                        class="form-control"
+                        placeholder="usuario@ejemplo.com"
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="contraseña">Contraseña</label>
+                <div class="input-container with-icon">
+                    <input
+                        type="password"
+                        id="contraseña"
+                        name="contraseña"
+                        class="form-control"
+                        placeholder="************"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+            </div>
+
+            <button type="submit" class="btn-continue" id="submitBtn">
+                Continuar
+            </button>
+
+            <div class="footer-text">
+                ¿Aún no tienes cuenta?
+            </div>
+
+            <a href="{{ url_for('registro') }}" class="create-account-link">Crear cuenta</a>
+        </form>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('contraseña');
+        const userInput = document.getElementById('nombre_usuario');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function checkInputs() {
+            if (userInput.value.trim() !== '' && passwordInput.value.trim() !== '') {
+                submitBtn.classList.add('active');
+            } else {
+                submitBtn.classList.remove('active');
+            }
+        }
+
+        userInput.addEventListener('input', checkInputs);
+        passwordInput.addEventListener('input', checkInputs);
+    </script>
+</body>
+</html>

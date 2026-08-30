@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Principal - mcosia_s12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f1f3f6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 2.25rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.75rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .btn-logout {
+            background-color: #ef4444;
+            color: #ffffff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-logout:hover {
+            background-color: #dc2626;
+        }
+
+        .welcome-box {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .badge-role {
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-admin {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+
+        .badge-client {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            border: 1px solid #93c5fd;
+        }
+
+        .alert-container {
+            margin-bottom: 1.25rem;
+        }
+
+        .alert {
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            color: #15803d;
+        }
+
+        .alert-danger {
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #334155;
+        }
+
+        .form-control {
+            padding: 0.75rem 0.9rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .btn-add {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-add:hover {
+            background-color: #1d4ed8;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            padding: 0.85rem 1rem;
+            font-weight: 700;
+            border-bottom: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* Formulario de compra dentro de la tabla */
+        .buy-form {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+
+        .input-qty {
+            width: 65px;
+            padding: 0.45rem 0.5rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .input-qty:focus {
+            border-color: #16a34a;
+        }
+
+        .btn-buy {
+            background-color: #16a34a;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-buy:hover {
+            background-color: #15803d;
+        }
+
+        .badge-out {
+            display: inline-block;
+            background-color: #f1f5f9;
+            color: #94a3b8;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s ease;
+        }
+
+        .btn-edit:hover {
+            background-color: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <div class="header">
+                <h1>Panel de Inicio</h1>
+                <a href="{{ url_for('logout') }}" class="btn-logout">Cerrar Sesión</a>
+            </div>
+            
+            <div class="welcome-box">
+                <div>
+                    <h2 style="font-size: 1.25rem;">¡Hola, {{ session.get('usuario', 'Usuario') }}!</h2>
+                </div>
+                <div>
+                    {% if session.get('es_cliente') %}
+                        <span class="badge-role badge-client">Cliente</span>
+                    {% else %}
+                        <span class="badge-role badge-admin">Administrador</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if not session.get('es_cliente') %}
+            <div class="card">
+                <h2 class="section-title">
+                    <span>➕</span> Registrar Nuevo Libro
+                </h2>
+                <form action="{{ url_for('crear_libro') }}" method="POST">
+                    <div class="form-grid">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="titulo">Título del Libro</label>
+                            <input
+                                type="text"
+                                id="titulo"
+                                name="titulo"
+                                class="form-control"
+                                placeholder="Ej. Harry Potter"
+                                required
+                            >
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="autor">Autor</label>
+                            <input
+                                type="text"
+                                id="autor"
+                                name="autor"
+                                class="form-control"
+                                placeholder="Ej. J. K. Rowling"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="precio">Precio ($)</label>
+                            <input 
+                                type="number" 
+                                id="precio" 
+                                name="precio" 
+                                class="form-control" 
+                                placeholder="Ej. 19990" 
+                                step="0.01" 
+                                min="0.01" 
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="stock">Stock Disponible</label>
+                            <input
+                                type="number"
+                                id="stock"
+                                name="stock"
+                                class="form-control"
+                                placeholder="Ej. 10"
+                                min="0"
+                                step="1"
+                                required
+                            >
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-add">
+                        Guardar Libro
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+
+        <div class="card">
+            <h2 class="section-title">Catálogo de Libros Disponibles</h2>
+            {% if libros %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                {% if session.get('es_cliente') %}
+                                    <th>Comprar</th>
+                                {% else %}
+                                    <th>Acción</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for libro in libros %}
+                                <tr>
+                                    <td>{{ libro.id_libro }}</td>
+                                    <td style="font-weight: 600; color: #0f172a;">{{ libro.titulo }}</td>
+                                    <td>{{ libro.autor }}</td>
+                                    <td style="color: #16a34a; font-weight: 600;">${{ "{:,.2f}".format(libro.precio) if libro.precio is number else libro.precio }}</td>
+                                    <td>
+                                        {% if libro.stock > 0 %}
+                                            <span style="color: #1e293b; font-weight: 500;">{{ libro.stock }} unidades</span>
+                                        {% else %}
+                                            <span style="color: #dc2626; font-weight: 600;">Agotado</span>
+                                        {% endif %}
+                                    </td>
+                                    {% if session.get('es_cliente') %}
+                                        <td>
+                                            {% if libro.stock > 0 %}
+                                                <form action="{{ url_for('comprar_libro') }}" method="POST" class="buy-form">
+                                                    <input type="hidden" name="id_libro" value="{{ libro.id_libro }}">
+                                                    <input 
+                                                        type="number" 
+                                                        name="cantidad" 
+                                                        class="input-qty" 
+                                                        value="1" 
+                                                        min="1" 
+                                                        max="{{ libro.stock }}" 
+                                                        required
+                                                    >
+                                                    <button type="submit" class="btn-buy">
+                                                        🛒 Comprar
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <span class="badge-out">Sin Stock</span>
+                                            {% endif %}
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <a href="{{ url_for('editar_libro', id_libro=libro.id_libro) }}" class="btn-edit">
+                                                Editar
+                                            </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p style="color: #64748b; font-style: italic; text-align: center; padding: 1.5rem 0;">
+                    No hay libros registrados actualmente en el catálogo.
+                </p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">
+                {% if session.get('es_cliente') %}
+                    Mis Pedidos Realizados
+                {% else %}
+                    Registro Global de Pedidos (Todos los Clientes)
+                {% endif %}
+            </h2>
+
+            {% if pedidos %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N° Pedido</th>
+                                {% if not session.get('es_cliente') %}
+                                    <th>Cliente</th>
+                                    <th>Email</th>
+                                    <th>Dirección de Envío</th>
+                                {% endif %}
+                                <th>Libro</th>
+                                <th>Precio Unitario</th>
+                                <th>Cantidad</th>
+                                <th>Total Pagado</th>
+                                <th>Fecha de Compra</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pedido in pedidos %}
+                                <tr>
+                                    <td style="font-weight: 600;">#{{ pedido.id_pedido }}</td>
+                                    {% if not session.get('es_cliente') %}
+                                        <td style="font-weight: 600; color: #0f172a;">{{ pedido.nombre }} {{ pedido.apellido }}</td>
+                                        <td style="color: #64748b; font-size: 0.9rem;">{{ pedido.correo }}</td>
+                                        <td style="color: #475569; font-size: 0.9rem;">{{ pedido.direccion_envio if pedido.direccion_envio else '-' }}</td>
+                                    {% endif %}
+                                    <td style="color: #0f172a; font-weight: 600;">{{ pedido.titulo }}</td>
+                                    <td>${{ "{:,.2f}".format(pedido.precio) if pedido.precio is number else pedido.precio }}</td>
+                                    <td><strong>{{ pedido.cantidad }}</strong> unidad(es)</td>
+                                    <td style="color: #16a34a; font-weight: 700;">${{ "{:,.2f}".format(pedido.total) if pedido.total is number else pedido.total }}</td>
+                                    <td style="color: #64748b; font-size: 0.9rem;">{{ pedido.fecha_pedido }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p style="color: #64748b; font-style: italic; text-align: center; padding: 1.5rem 0;">
+                    {% if session.get('es_cliente') %}
+                        Aún no has realizado ninguna compra.
+                    {% else %}
+                        No hay pedidos registrados en el sistema hasta el momento.
+                    {% endif %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
