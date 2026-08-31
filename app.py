@@ -337,6 +337,37 @@ def editar_libro(id_libro):
         if conexion.is_connected():
             conexion.close()
 
+@app.route('/eliminar_libro/<int:id_libro>', methods=['POST'])
+def eliminar_libro(id_libro):
+    if 'usuario' not in session:
+        flash('Debes iniciar sesión para acceder', 'danger')
+        return redirect(url_for('login'))
+
+    if session.get('es_cliente', True):
+        flash('Acceso no permitido: solo los administradores pueden eliminar libros', 'danger')
+        return redirect(url_for('index'))
+
+    conexion = obtener_conexion()
+    if conexion:
+        try:
+            cursor = conexion.cursor(dictionary=True)
+            cursor.execute("DELETE FROM Libro WHERE id_libro = %s", (id_libro,))
+            conexion.commit()
+            cursor.close()
+            flash('Libro eliminado correctamente del catálogo', 'success')
+        except Error as e:
+            if e.errno == 1451:
+                flash('No se puede eliminar el libro porque tiene pedidos asociados en el historial.', 'danger')
+            else:
+                flash(f'Error al eliminar el libro: {e}', 'danger')
+        finally:
+            if conexion.is_connected():
+                conexion.close()
+    else:
+        flash('No se pudo conectar a la base de datos', 'danger')
+
+    return redirect(url_for('index'))
+
 @app.route('/logout')
 def logout():
     session.clear()
