@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = 'mcosia_s12'
 
+""" Inicia sesión en la plataforma """
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -39,6 +40,7 @@ def login():
 
     return render_template('login.html')
 
+""" Inserta nuevos registros en la tabla Usuario """
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
@@ -87,6 +89,7 @@ def registro():
 
     return render_template('registro.html')
 
+""" Muestra la página principal de la plataforma listando libros y pedidos """
 @app.route('/index')
 def index():
     if 'usuario' not in session:
@@ -137,6 +140,7 @@ def index():
 
     return render_template('index.html', libros=libros, pedidos=pedidos)
 
+""" Inserta nuevos registros en la tabla Libro """
 @app.route('/crear_libro', methods=['POST'])
 def crear_libro():
     if 'usuario' not in session:
@@ -195,6 +199,7 @@ def crear_libro():
 
     return redirect(url_for('index'))
 
+""" Inserta nuevos registros en la tabla Pedido """
 @app.route('/comprar_libro', methods=['POST'])
 def comprar_libro():
     if 'usuario' not in session or 'id_usuario' not in session:
@@ -268,6 +273,7 @@ def comprar_libro():
 
     return redirect(url_for('index'))
 
+""" Actualiza registros en la tabla Libro """
 @app.route('/editar_libro/<int:id_libro>', methods=['GET', 'POST'])
 def editar_libro(id_libro):
     if 'usuario' not in session:
@@ -337,6 +343,7 @@ def editar_libro(id_libro):
         if conexion.is_connected():
             conexion.close()
 
+""" Elimina registros de la tabla Libro """
 @app.route('/eliminar_libro/<int:id_libro>', methods=['POST'])
 def eliminar_libro(id_libro):
     if 'usuario' not in session:
@@ -368,6 +375,7 @@ def eliminar_libro(id_libro):
 
     return redirect(url_for('index'))
 
+""" Elimina los datos de la sesión del usuario """
 @app.route('/logout')
 def logout():
     session.clear()
